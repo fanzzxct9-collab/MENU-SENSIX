@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SENSIX.ID - Premium Auto Save Update</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #0F131A;
+            color: #FFFFFF;
+            overflow: hidden;
+            height: 100vh;
+            height: 100dvh; 
+            width: 100vw;
+        }
+
+        /* Container Utama */
+        .app-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding: 16px 16px 0 16px;
+        }
+
+        /* Area Scroll Konten */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 130px; 
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .main-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Style Card Utama */
+        .card {
+            background-color: #171D26;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+
+        .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .status-badge {
+            background-color: #2196F3;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 1px 6px;
+            border-radius: 6px;
+            margin-left: 4px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .card-subtitle {
+            color: #8E9AAB;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .time-tracker {
+            color: #435166;
+            font-size: 12px;
+            margin-top: 16px;
+            font-weight: 500;
+        }
+
+        .logo-m {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Box Informasi Device */
+        .info-item-box {
+            display: flex;
+            align-items: center;
+            background-color: #1F2632;
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+        }
+        
+        .info-item-box:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-icon-wrapper {
+            color: #8E9AAB;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-text-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 13.5px;
+            font-weight: bold;
+            color: #FFFFFF;
+        }
+        
+        .info-value {
+            font-size: 11px;
+            color: #8E9AAB;
+            margin-top: 1px;
+        }
+
+        /* Card Support Team */
+        .support-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .support-text h4 {
+            font-size: 15px;
+            font-weight: bold;
+            color: #FFFFFF;
+        }
+
+        .support-text p {
+            font-size: 11px;
+            color: #8E9AAB;
+            margin-top: 2px;
+            max-width: 80%;
+            line-height: 1.3;
+        }
+
+        .support-icons {
+            display: flex;
+            gap: 14px;
+            color: #FFFFFF;
+        }
+
+        .support-icons a {
+            color: inherit;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        /* STYLING FITUR & SWITCH (TOOLS) */
+        .switch-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #171D26;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-accent-bar {
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 8px;
+            background-color: #1A73E8;
+        }
+
+        .switch-text {
+            flex: 1;
+            padding-right: 15px;
+        }
+
+        .switch-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .switch-title i {
+            color: #1A73E8;
+        }
+
+        .switch-desc {
+            font-size: 11px;
+            color: #8E9AAB;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #1F2632;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #34C759;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* SETTINGS PAGE */
+        .settings-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-group-card {
+            background-color: #171D26;
+            border-radius: 20px;
+            padding: 18px;
+        }
+
+        .form-label-premium {
+            color: #8E9AAB;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-wrapper-premium {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .input-field-premium {
+            width: 100%;
+            height: 50px;
+            background-color: #1F2632;
+            border: 1px solid #2C3545;
+            border-radius: 14px;
+            color: #FFFFFF;
+            padding: 0 16px;
+            font-size: 15px;
+            font-weight: 500;
+            outline: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 16px;
+            color: #8E9AAB;
+            pointer-events: none;
+        }
+
+        /* CUSTOM DROPDOWN MODAL */
+        .dropdown-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            padding: 24px;
+        }
+
+        .dropdown-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .dropdown-modal {
+            background-color: #171D26;
+            border: 1px solid #2C3545;
+            width: 100%;
+            max-width: 320px;
+            border-radius: 20px;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .dropdown-overlay.show .dropdown-modal {
+            transform: scale(1);
+        }
+
+        .dropdown-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            color: #FFFFFF;
+            font-size: 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #1F2632;
+        }
+
+        .dropdown-option.selected {
+            background-color: rgba(52, 199, 89, 0.05);
+        }
+
+        .custom-radio {
+            width: 18px; height: 18px;
+            border: 2px solid #5A6E85;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .dropdown-option.selected .custom-radio {
+            border-color: #34C759;
+        }
+
+        .custom-radio-inner {
+            width: 10px; height: 10px;
+            background-color: #34C759;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.2s;
+        }
+
+        .dropdown-option.selected .custom-radio-inner {
+            transform: scale(1);
+        }
+
+        .input-disabled-premium {
+            background-color: #131821;
+            border-color: #1F2632;
+            color: #5A6E85;
+        }
+
+        .btn-group-premium {
+            display: flex; gap: 12px; margin-top: 6px;
+        }
+
+        .btn-premium {
+            flex: 1; height: 50px; border: none; border-radius: 14px;
+            font-size: 14px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+
+        .btn-reset-premium { background-color: #2A161A; color: #FF4554; border: 1px solid rgba(255, 69, 84, 0.2); }
+        .btn-apply-premium { background-color: #00E676; color: #000000; }
+
+        /* PROFILE SCREEN */
+        .profile-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 12px; margin-bottom: 12px; }
+        .grid-box { background-color: #171D26; border-radius: 20px; padding: 22px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .grid-box .box-title { font-size: 16px; font-weight: 800; }
+        .grid-box .box-label { font-size: 22px; font-weight: bold; }
+        .grid-box .box-sublabel { font-size: 13px; color: #8E9AAB; font-weight: bold; }
+        .grid-box i.big-icon { color: #FFFFFF; margin-bottom: 10px; }
+
+        .link-item-box { display: flex; align-items: center; background-color: #171D26; border-radius: 20px; padding: 18px; margin-bottom: 12px; cursor: pointer; text-decoration: none; color: inherit; }
+        .link-icon-wrapper { color: #FFFFFF; margin-right: 14px; display: flex; align-items: center; }
+        .link-text-wrapper { flex: 1; display: flex; flex-direction: column; padding-right: 10px; }
+        .link-title { font-size: 16px; font-weight: bold; }
+        .link-desc { font-size: 11px; color: #8E9AAB; margin-top: 4px; line-height: 1.4; }
+        .link-action-icon { color: #FFFFFF; display: flex; align-items: center; }
+
+        .room { display: none; height: 100%; }
+        .room.active { display: block; }
+
+        /* Bottom Nav Bar */
+        .bottom-nav {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 76px;
+            background-color: #171D26; display: flex; justify-content: space-around; align-items: center;
+            padding: 0 10px calc(8px + env(safe-area-inset-bottom)) 10px; border-top: 1px solid #1F2632; z-index: 99;
+        }
+        .nav-tab { display: flex; flex-direction: column; align-items: center; cursor: pointer; color: #5A6E85; width: 65px; }
+        .nav-tab span { font-size: 11px; margin-top: 4px; }
+        .nav-tab.active { color: #34C759; }
+        .nav-tab.active span { color: #FFFFFF; }
+
+        /* Toast Popup */
+        .toast {
+            position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background-color: #1F2632; color: #fff; padding: 10px 20px; border-radius: 16px; font-size: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+            z-index: 999; pointer-events: none; opacity: 0; text-align: center; width: max-content; max-width: 85%;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div id="toast" class="toast">Menerapkan...</div>
+
+        <div class="main-content">
+
+            <div id="layoutHome" class="room active">
+                <div class="card">
+                    <div class="card-header-flex">
+                        <div>
+                            <div class="card-title">Berjalan <span class="status-badge">Tools</span></div>
+                            <div class="card-subtitle">Versi: 3.1.0 | Beta</div>
+                        </div>
+                        <div class="logo-m">
+                            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 25L35 75L50 50L65 75L90 25L75 40L50 15L25 40L10 25Z" fill="white"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="time-tracker">T+18 : 42 : 09</div>
+                </div>
+
+                <div class="card" style="padding: 14px;">
+                    <div class="info-item-box">
+                        <div class="info-icon-wrapper"><i data-lucide="smartphone" size="18"></i></div>
+                        <div class="info-text-wrapper"><div class="info-label">Nama Perangkat</div><div class="info-value">Redmi 22120RN86G</div></div>
+                    </div>
+                    <div class="info-item-box">
+                        <div class="info-icon-wrapper"><i data-lucide="bot" size="18"></i></div>
+                        <div class="info-text-wrapper"><div class="info-label">Versi Android</div><div class="info-value">Android 14</div></div>
+                    </div>
+                    <div class="info-item-box">
+                        <div class="info-icon-wrapper"><i data-lucide="code-2" size="18"></i></div>
+                        <div class="info-text-wrapper"><div class="info-label">Akses Mode</div><div class="info-value">Bisa akses shizuku</div></div>
+                    </div>
+                    <div class="info-item-box">
+                        <div class="info-icon-wrapper"><i data-lucide="cpu" size="18"></i></div>
+                        <div class="info-text-wrapper"><div class="info-label">ABI Support</div><div class="info-value">arm64-v8a</div></div>
+                    </div>
+                    <div class="info-item-box">
+                        <div class="info-icon-wrapper"><i data-lucide="key-round" size="18"></i></div>
+                        <div class="info-text-wrapper"><div class="info-label">Build ID</div><div class="info-value">UP1A.231005.007</div></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="support-flex">
+                        <div class="support-text">
+                            <h4>Support Team</h4>
+                            <p>support us by following our social media, to get more information</p>
+                        </div>
+                        <div class="support-icons">
+                            <a href="https://whatsapp.com/channel/0029VbCUm8bCxoAu9JPab20q" target="_blank">
+                                <i data-lucide="message-circle" size="20"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@manukcilil?_r=1&_t=ZS-96kBD9zGmtI" target="_blank">
+                                <i data-lucide="music-4" size="20"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="layoutToolsMenu" class="room">
+                
+                <div class="switch-item">
+                    <div class="item-accent-bar"></div>
+                    <div class="switch-text">
+                        <div class="switch-title"><i data-lucide="move" size="16"></i> Easy Drag</div>
+                        <div class="switch-desc">Mempermudah pergerakan drag agar lebih ringan dan mudah dikontrol sehingga transisi aim terasa lebih halus</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="switchEasyDrag" onchange="toggleFeature('Easy Drag', this)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-item">
+                    <div class="item-accent-bar"></div>
+                    <div class="switch-text">
+                        <div class="switch-title"><i data-lucide="target" size="16"></i> Drag hs</div>
+                        <div class="switch-desc">Membantu arah pergerakan drag lebih terarah ke area target untuk mempermudah mendapatkan headshot secara konsisten</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="switchDragHs" onchange="toggleFeature('Drag hs', this)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-item">
+                    <div class="item-accent-bar"></div>
+                    <div class="switch-text">
+                        <div class="switch-title"><i data-lucide="zap" size="16"></i> Fps Boost</div>
+                        <div class="switch-desc">Meningkatkan kestabilan frame rate agar tampilan lebih lancar dan responsif saat digunakan</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="switchFpsBoost" onchange="toggleFeature('Fps Boost', this)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-item">
+                    <div class="item-accent-bar"></div>
+                    <div class="switch-text">
+                        <div class="switch-title"><i data-lucide="sliders" size="16"></i> Sensitivity tuning</div>
+                        <div class="switch-desc">Menyesuaikan tingkat sensitas agar pergerakan aim lebih stabil halus dan sesuai dengan karakter penggunaan</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="switchSensTuning" onchange="toggleFeature('Sensitivity tuning', this)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-item">
+                    <div class="item-accent-bar"></div>
+                    <div class="switch-text">
+                        <div class="switch-title"><i data-lucide="gauge" size="16"></i> Max performance</div>
+                        <div class="switch-desc">Mengoptimalkan performa perangkat agar berjalan lebih stabil dan responsif saat digunakan</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="switchMaxPerf" onchange="toggleFeature('Max performance', this)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="layoutSettingResolusi" class="room">
+                <div class="settings-container">
+                    <div class="form-group-card">
+                        <div class="form-label-premium" id="labelDisplayMode"><i data-lucide="monitor" size="15"></i> Display Mode (Biasa)</div>
+                        <div class="input-wrapper-premium" onclick="openDropdownModal()">
+                            <div id="customSelectTrigger" class="input-field-premium">Biasa (Standard)</div>
+                            <i data-lucide="chevron-down" class="select-arrow" size="16"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group-card">
+                        <div class="form-label-premium"><i data-lucide="maximize-2" size="15"></i> Resolution</div>
+                        <div style="display: flex; gap: 10px;">
+                            <div style="flex: 1;"><input type="number" id="etWidth" class="input-field-premium" placeholder="Width" oninput="hitungTinggiResolusi()"></div>
+                            <div style="flex: 1;"><input type="text" id="etHeight" class="input-field-premium input-disabled-premium" placeholder="Height" readonly></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group-card">
+                        <div class="form-label-premium"><i data-lucide="layers" size="15"></i> Screen Density</div>
+                        <div class="input-wrapper-premium"><input type="number" id="etDpi" class="input-field-premium" placeholder="Masukkan Nilai DPI"></div>
+                    </div>
+
+                    <div class="btn-group-premium">
+                        <button class="btn-premium btn-reset-premium" onclick="resetResolusiDefault()"><i data-lucide="rotate-ccw" size="15"></i> RESET</button>
+                        <button class="btn-premium btn-apply-premium" onclick="applyResolusi()"><i data-lucide="check" size="15"></i> APPLY NOW</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="layoutProfile" class="room">
+                <div class="profile-grid">
+                    <div class="grid-box"><i data-lucide="users" class="big-icon" size="44"></i><div class="box-title">SENSIX V3.1</div></div>
+                    <div class="grid-box"><div class="box-label">Version</div><div class="box-sublabel">3.1</div></div>
+                </div>
+
+                <a href="https://whatsapp.com/channel/0029VbCUm8bCxoAu9JPab20q" target="_blank" class="link-item-box">
+                    <div class="link-icon-wrapper"><i data-lucide="message-circle" size="24"></i></div>
+                    <div class="link-text-wrapper">
+                        <div class="link-title">Saluran Whatsapp</div>
+                        <div class="link-desc">Join Saluran Untuk Mendapatkan Update Terbaru Informasi Penting Dan Akses Ke Fitur Serta Versi Terbaru Apk Tools</div>
+                    </div>
+                    <div class="link-action-icon"><i data-lucide="external-link" size="20"></i></div>
+                </a>
+
+                <a href="https://www.tiktok.com/@manukcilil?_r=1&_t=ZS-96kBD9zGmtI" target="_blank" class="link-item-box">
+                    <div class="link-icon-wrapper"><i data-lucide="music-4" size="24"></i></div>
+                    <div class="link-text-wrapper">
+                        <div class="link-title">Follow TikTok</div>
+                        <div class="link-desc">Follow tiktok agar dapat info tentang update dan seputar aplikasi free yang bakalan di upload lewat tiktok resmi</div>
+                    </div>
+                    <div class="link-action-icon"><i data-lucide="external-link" size="20"></i></div>
+                </a>
+            </div>
+
+        </div>
+
+        <div id="dropdownOverlay" class="dropdown-overlay" onclick="closeDropdownModal()">
+            <div class="dropdown-modal" onclick="event.stopPropagation()">
+                <div class="dropdown-option selected" id="optBiasa" onclick="selectDropdownOption('Biasa', 'Biasa (Standard)')">
+                    <span>Biasa (Standard)</span><div class="custom-radio"><div class="custom-radio-inner"></div></div>
+                </div>
+                <div class="dropdown-option" id="optUltrawide" onclick="selectDropdownOption('Ultrawide', 'Ultrawide (Wide)')">
+                    <span>Ultrawide (Wide)</span><div class="custom-radio"><div class="custom-radio-inner"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-tab active" onclick="switchRuangan('HOME', this)"><i data-lucide="home" size="18"></i><span>Home</span></div>
+            <div class="nav-tab" onclick="switchRuangan('TOOLS', this)"><i data-lucide="layout-grid" size="18"></i><span>Tools</span></div>
+            <div class="nav-tab" onclick="switchRuangan('SETTING', this)"><i data-lucide="sliders" size="18"></i><span>Settings</span></div>
+            <div class="nav-tab" onclick="switchRuangan('PROFILE', this)"><i data-lucide="user" size="18"></i><span>Profile</span></div>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Menggunakan alamat port jembatan lokal server dari Android (Sketchware)
+        const BRIDGE_URL = "http://localhost:8080";
+
+        let currentSelectedMode = "Biasa";
+        let isAutoCalculating = false;
+
+        // Eksekusi pemuatan data otomatis saat aplikasi pertama kali dibuka
+        document.addEventListener("DOMContentLoaded", () => {
+            loadSavedFeatures();
+        });
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function switchRuangan(halaman, elementTab) {
+            document.querySelectorAll('.room').forEach(room => room.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            elementTab.classList.add('active');
+
+            if (halaman === 'HOME') document.getElementById('layoutHome').classList.add('active');
+            else if (halaman === 'TOOLS') document.getElementById('layoutToolsMenu').classList.add('active');
+            else if (halaman === 'SETTING') document.getElementById('layoutSettingResolusi').classList.add('active');
+            else if (halaman === 'PROFILE') document.getElementById('layoutProfile').classList.add('active');
+            document.querySelector('.main-content').scrollTop = 0;
+        }
+
+        /* AUTO SAVE ENGINE USING LOCALSTORAGE & BRIDGE INTEGRATION */
+        function toggleFeature(featureName, checkbox) {
+            localStorage.setItem(checkbox.id, checkbox.checked);
+            if (checkbox.checked) {
+                showToast(`${featureName} Berhasil Diterapkan!`);
+            } else {
+                showToast(`${featureName} Dinonaktifkan.`);
+            }
+
+            // Integrasi Bridge: Kirim sinyal toggle switch ke background server Android
+            const namaBersih = featureName.replace(/\s+/g, '_');
+            fetch(`${BRIDGE_URL}/fitur?nama=${namaBersih}&status=${checkbox.checked}`)
+            .catch(err => console.log("Gagal menyambung ke server APK. Pastikan server aktif."));
+        }
+
+        function loadSavedFeatures() {
+            const switches = [
+                { id: 'switchEasyDrag', name: 'Easy Drag' },
+                { id: 'switchDragHs', name: 'Drag hs' },
+                { id: 'switchFpsBoost', name: 'Fps Boost' },
+                { id: 'switchSensTuning', name: 'Sensitivity tuning' },
+                { id: 'switchMaxPerf', name: 'Max performance' }
+            ];
+
+            switches.forEach(sw => {
+                const savedState = localStorage.getItem(sw.id);
+                if (savedState !== null) {
+                    document.getElementById(sw.id).checked = (savedState === 'true');
+                }
+            });
+
+            // Memuat ulang konfigurasi Display Mode yang tersimpan
+            const savedMode = localStorage.getItem('displayMode');
+            if (savedMode === 'Ultrawide') {
+                selectDropdownOption('Ultrawide', 'Ultrawide (Wide)', true);
+            } else {
+                selectDropdownOption('Biasa', 'Biasa (Standard)', true);
+            }
+        }
+
+        /* SETTING CUSTOM DROPDOWN */
+        function openDropdownModal() { document.getElementById('dropdownOverlay').classList.add('show'); }
+        function closeDropdownModal() { document.getElementById('dropdownOverlay').classList.remove('show'); }
+
+        function selectDropdownOption(value, teksTampilan, isInitialLoad = false) {
+            currentSelectedMode = value;
+            document.getElementById('customSelectTrigger').innerText = teksTampilan;
+            document.querySelectorAll('.dropdown-option').forEach(opt => opt.classList.remove('selected'));
+            
+            if (value === 'Biasa') document.getElementById('optBiasa').classList.add('selected');
+            else document.getElementById('optUltrawide').classList.add('selected');
+
+            const label = document.getElementById('labelDisplayMode');
+            label.innerHTML = `<i data-lucide="monitor" size="15"></i> Display Mode (${value})`;
+            lucide.createIcons();
+            
+            if (!isInitialLoad) {
+                localStorage.setItem('displayMode', value);
+                showToast(`Display Mode diubah ke ${value}`);
+            }
+            
+            hitungTinggiResolusi();
+            closeDropdownModal();
+        }
+
+        function hitungTinggiResolusi() {
+            if (isAutoCalculating) return;
+            const widthInput = document.getElementById('etWidth').value.trim();
+            const mode = currentSelectedMode;
+            const heightField = document.getElementById('etHeight');
+
+            if (widthInput !== "") {
+                const width = parseInt(widthInput);
+                let height = mode === "Ultrawide" ? Math.floor(width * 2.777) : Math.floor(width * 2.222);
+                isAutoCalculating = true;
+                heightField.value = height;
+                isAutoCalculating = false;
+            } else {
+                heightField.value = "";
+            }
+        }
+
+        function resetResolusiDefault() {
+            document.getElementById('etWidth').value = "";
+            document.getElementById('etHeight').value = "";
+            document.getElementById('etDpi').value = "";
+            selectDropdownOption('Biasa', 'Biasa (Standard)');
+            
+            // Integrasi Bridge: Kirim perintah reset ukuran layar wm ke setelan pabrik
+            fetch(`${BRIDGE_URL}/reset`)
+            .then(() => {
+                showToast("Resolusi di-reset ke default HP.");
+            })
+            .catch(err => {
+                showToast("Gagal mereset lewat sistem Android.");
+            });
+        }
+
+        function applyResolusi() {
+            const wStr = document.getElementById('etWidth').value.trim();
+            const hStr = document.getElementById('etHeight').value.trim();
+            const dStr = document.getElementById('etDpi').value.trim();
+
+            if (wStr === "" || hStr === "" || dStr === "") {
+                showToast("Kolom tidak boleh kosong!");
+                return;
+            }
+
+            // Integrasi Bridge: Kirim parameter Width, Height, dan DPI ke Shizuku Shell
+            fetch(`${BRIDGE_URL}/apply?w=${wStr}&h=${hStr}&d=${dStr}`)
+            .then(() => {
+                showToast("Resolusi Berhasil Diubah!");
+            })
+            .catch(err => {
+                showToast("Gagal menyambung ke APK Bridge!");
+            });
+        }
+    </script>
+</body>
+</html>
