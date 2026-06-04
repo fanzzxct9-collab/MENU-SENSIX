@@ -2,802 +2,759 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>SENSIX.ID - Premium Auto Save Update</title>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SensiX Premium UI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
     <style>
+        :root {
+            --bg-primary: #0F141C;
+            --bg-card: #16202E;
+            --bg-subcard: #1F2C3F;
+            --accent-blue: #0088FF;
+            --accent-red: #EF4444;
+            --accent-green: #10B981;
+            --text-main: #FFFFFF;
+            --text-muted: #8E9AAF;
+            --input-bg: #1A2433;
+        }
+
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        html {
+            background-color: var(--bg-primary);
+        }
+
+        html, body {
+            background-color: var(--bg-primary) !important;
         }
 
         body {
-            background-color: #0F131A;
-            color: #FFFFFF;
-            overflow: hidden;
-            height: 100vh;
-            height: 100dvh; 
-            width: 100vw;
-        }
-
-        /* Container Utama */
-        .app-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            padding: 16px 16px 0 16px;
-        }
-
-        /* Area Scroll Konten */
-        .main-content {
-            flex: 1;
-            overflow-y: auto;
-            padding-bottom: 130px; 
-            scroll-behavior: smooth;
+            color: var(--text-main);
+            margin: 0;
+            padding: 10px 10px 85px 10px;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            will-change: opacity;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior: none;
+            scroll-behavior: smooth;
         }
 
-        .main-content::-webkit-scrollbar {
+        .tab-content {
             display: none;
+            padding: 14px 8px;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(3px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Style Card Utama */
-        .card {
-            background-color: #171D26;
-            border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 12px;
+        .status-container {
+            background: var(--bg-card); border-radius: 14px; padding: 12px 14px;
+            position: relative; margin-bottom: 8px; overflow: hidden;
+        }
+        .status-title { font-size: 16px; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 6px; }
+        .badge-tools { background: var(--accent-blue); color: white; font-size: 8px; font-weight: 700; padding: 1px 5px; border-radius: 6px; }
+        .status-version { color: var(--text-muted); font-size: 10.5px; margin: 2px 0 0 0; }
+        .status-timer { color: #4B5E78; font-size: 10.5px; margin-top: 10px; font-family: monospace; }
+        .logo-hacker { position: absolute; right: 14px; top: 14px; width: 38px; height: 38px; opacity: 0.75; }
+
+        .spec-box { background: var(--bg-card); border-radius: 14px; padding: 8px; margin-bottom: 8px; }
+        .spec-item {
+            background: var(--bg-subcard); border-radius: 10px; padding: 6px 10px;
+            display: flex; align-items: center; gap: 8px; margin-bottom: 5px;
+        }
+        .spec-item:last-child { margin-bottom: 0; }
+        .spec-icon { color: var(--text-muted); font-size: 16px; display: flex; align-items: center; }
+        .spec-info h4 { margin: 0; font-size: 11px; font-weight: 700; }
+        .spec-info p { margin: 0; font-size: 10px; color: var(--text-muted); }
+
+        .support-box {
+            background: var(--bg-card); border-radius: 12px; padding: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; color: inherit;
+        }
+        .support-left h3 { margin: 0; font-size: 12px; font-weight: 700; }
+        .support-left p { margin: 1px 0 0 0; font-size: 9.5px; color: var(--text-muted); }
+        .support-socials { display: flex; gap: 10px; align-items: center; }
+
+        .game-launcher-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        .game-card-btn {
+            background: var(--bg-card); border-radius: 12px; padding: 8px;
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
+        }
+        .game-icon-img { width: 30px; height: 30px; border-radius: 8px; object-fit: cover; }
+        .game-meta h3 { margin: 0; font-size: 11px; font-weight: 700; }
+        .game-meta p { margin: 0; font-size: 8.5px; color: var(--text-muted); }
+
+        .social-icon-img { width: 22px; height: 22px; object-fit: contain; }
+
+        .tweak-card {
+            background: var(--bg-card); border-radius: 14px; padding: 10px 12px;
+            display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px;
+        }
+        .tweak-left { display: flex; gap: 8px; padding-right: 6px; }
+        .tweak-icon-box { color: var(--accent-blue); display: flex; align-items: center; padding-top: 1px; }
+        .tweak-icon-box span { font-size: 20px; }
+        .tweak-text h3 { margin: 0; font-size: 13px; font-weight: 700; }
+        .tweak-text p { margin: 3px 0 0 0; font-size: 10.5px; color: var(--text-muted); line-height: 1.35; }
+
+        .recommendation-panel {
+            background: var(--bg-card); border-radius: 14px; padding: 10px;
+            margin-top: -5px; margin-bottom: 10px; display: none;
+            animation: slideDown 0.2s ease-in-out;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 8px;}
+        
+        .select-sensi-mode {
+            background: var(--bg-subcard); color: white; border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px; padding: 4px 8px; font-size: 11px; font-weight: 600; outline: none; cursor: pointer;
+        }
+        .btn-generate {
+            background: var(--accent-blue); color: white; border: none;
+            border-radius: 8px; padding: 5px 12px; font-size: 10.5px;
+            font-weight: 800; cursor: pointer; letter-spacing: 0.3px;
+        }
+        .btn-generate:active { opacity: 0.8; }
+
+        .sensi-row-item {
+            background: var(--bg-subcard); border-radius: 8px; padding: 8px 12px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
+        }
+        .sensi-row-item:last-child { margin-bottom: 0; }
+        .sensi-name { font-size: 12px; font-weight: 600; color: #FFFFFF; }
+        .sensi-value { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+
+        .setting-section-title {
+            font-size: 14px; font-weight: 800; letter-spacing: 0.5px;
+            text-transform: uppercase; margin: 0 0 12px 2px; color: #FFFFFF;
+        }
+        .config-group { background: var(--bg-card); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+        .config-label { font-size: 10.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        
+        .dropdown-container { position: relative; margin-bottom: 14px; }
+        .dropdown-select {
+            width: 100%; background: var(--input-bg); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 600; outline: none;
+            appearance: none; -webkit-appearance: none; cursor: pointer;
+        }
+        .dropdown-container::after {
+            content: '\e5c5'; font-family: 'Material Icons Round'; position: absolute;
+            right: 12px; top: 50%; transform: translateY(-50%); color: var(--accent-blue); font-size: 18px; pointer-events: none;
         }
 
-        .card-header-flex {
+        .resolution-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .input-box-wrapper { position: relative; }
+        
+        .style-input {
+            width: 100%; background: var(--input-bg); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px; padding: 12px; font-size: 13px; font-weight: 600; text-align: center; outline: none;
+        }
+        .style-input::placeholder { color: #3A4B61; font-weight: 600; text-align: center; }
+
+        .action-button-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+        .btn-action {
+            border: none; border-radius: 10px; padding: 12px; font-size: 12px; font-weight: 800;
+            letter-spacing: 0.5px; cursor: pointer; text-align: center;
+        }
+        .btn-reset { background: #222935; color: var(--accent-red); }
+        .btn-apply { background: #222935; color: var(--accent-green); }
+        .btn-action:active { opacity: 0.8; }
+
+        .grid-profile { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+        .profile-card-top {
+            background: #1B2636; border-radius: 14px; padding: 12px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+        }
+        .profile-card-top span.large-icon { font-size: 28px; color: white; margin-bottom: 4px; }
+        .profile-card-top .title-top { font-size: 12px; font-weight: 800; }
+        .profile-card-top .sub-title-top { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+        
+        .social-link-card {
+            background: var(--bg-card); border-radius: 12px; padding: 12px;
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+            text-decoration: none; color: inherit;
+        }
+        .social-left-info { display: flex; align-items: center; gap: 10px; }
+        .social-link-card h3 { margin: 0; font-size: 12px; font-weight: 700; }
+        .social-link-card p { margin: 2px 0 0 0; font-size: 9.5px; color: var(--text-muted); }
+
+        .switch { position: relative; display: inline-block; width: 34px; height: 18px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; top:0; left:0; right:0; bottom:0; background: #2A3B50; border-radius: 18px; transition: .2s; }
+        .slider:before { position: absolute; content:""; height:12px; width:12px; left:3px; bottom:3px; background: white; border-radius: 50%; transition: .2s; }
+        input:checked + .slider { background: var(--accent-blue); }
+        input:checked + .slider:before { transform: translateX(16px); }
+
+        .nav-bar-container { position: fixed; bottom: 10px; left: 10px; right: 10px; z-index: 999; }
+        .nav-bar { display: flex; justify-content: space-around; background: rgba(22, 32, 46, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 8px 6px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.03); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 9px; font-weight: 700; cursor: pointer; flex: 1; }
+        .nav-item span { margin-bottom: 3px; font-size: 18px; }
+        .nav-item.active { color: #0088FF; }
+
+        /* ==================== STYLING ANIMASI IOS BOTTOM SHEET ==================== */
+        .ios-backdrop {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .ios-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .launcher-box-sheet {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: #141D29;
+            border-radius: 24px 24px 0 0;
+            padding: 10px 20px 32px 20px;
+            z-index: 10000;
+            box-shadow: 0 -8px 32px rgba(0,0,0,0.4);
+            transform: translateY(100%);
+            transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.12);
+        }
+        .ios-backdrop.show .launcher-box-sheet {
+            transform: translateY(0);
+        }
+
+        .ios-drag-handle {
+            width: 40px;
+            height: 5px;
+            background: #314257;
+            border-radius: 3px;
+            margin: 0 auto 18px auto;
+            cursor: pointer;
+        }
+
+        .game-header-info {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            margin-bottom: 20px;
         }
+        .game-title-left h3 {
+            margin: 0; font-size: 16px; font-weight: 700; color: #FFFFFF; letter-spacing: 0.3px;
+        }
+        .game-title-left p {
+            margin: 4px 0 0 0; font-size: 11.5px; color: #5C6E84; font-weight: 500;
+        }
+        .game-version-right { text-align: right; }
+        .game-version-right .v-num { font-size: 13px; font-weight: 700; color: #2D74DA; }
+        .game-version-right .v-code { margin: 4px 0 0 0; font-size: 11.5px; color: #5C6E84; font-weight: 500; }
 
-        .status-badge {
-            background-color: #2196F3;
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            padding: 1px 6px;
-            border-radius: 6px;
-            margin-left: 4px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-
-        .card-subtitle {
-            color: #8E9AAB;
-            font-size: 12px;
-            line-height: 1.4;
-        }
-
-        .time-tracker {
-            color: #435166;
-            font-size: 12px;
-            margin-top: 16px;
-            font-weight: 500;
-        }
-
-        .logo-m {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Box Informasi Device */
-        .info-item-box {
-            display: flex;
-            align-items: center;
-            background-color: #1F2632;
-            border-radius: 12px;
-            padding: 10px 14px;
-            margin-bottom: 8px;
-        }
-        
-        .info-item-box:last-child {
-            margin-bottom: 0;
-        }
-
-        .info-icon-wrapper {
-            color: #8E9AAB;
-            margin-right: 12px;
-            display: flex;
-            align-items: center;
-        }
-
-        .info-text-wrapper {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .info-label {
-            font-size: 13.5px;
-            font-weight: bold;
-            color: #FFFFFF;
-        }
-        
-        .info-value {
-            font-size: 11px;
-            color: #8E9AAB;
-            margin-top: 1px;
-        }
-
-        /* Card Support Team */
-        .support-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .support-text h4 {
-            font-size: 15px;
-            font-weight: bold;
-            color: #FFFFFF;
-        }
-
-        .support-text p {
-            font-size: 11px;
-            color: #8E9AAB;
-            margin-top: 2px;
-            max-width: 80%;
-            line-height: 1.3;
-        }
-
-        .support-icons {
-            display: flex;
-            gap: 14px;
-            color: #FFFFFF;
-        }
-
-        .support-icons a {
-            color: inherit;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        /* STYLING FITUR & SWITCH (TOOLS) */
-        .switch-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #171D26;
-            border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .item-accent-bar {
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 8px;
-            background-color: #1A73E8;
-        }
-
-        .switch-text {
-            flex: 1;
-            padding-right: 15px;
-        }
-
-        .switch-title {
-            font-size: 15px;
-            font-weight: bold;
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .switch-title i {
-            color: #1A73E8;
-        }
-
-        .switch-desc {
-            font-size: 11px;
-            color: #8E9AAB;
-            margin-top: 5px;
-            line-height: 1.4;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
-            flex-shrink: 0;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #1F2632;
-            transition: .3s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px; width: 18px;
-            left: 3px; bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #34C759;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(20px);
-        }
-
-        /* SETTINGS PAGE */
-        .settings-container {
-            display: flex;
-            flex-direction: column;
+        .mode-selection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
+            margin-bottom: 24px;
         }
-
-        .form-group-card {
-            background-color: #171D26;
+        .mode-card {
+            background: transparent;
+            border: 1px solid #28374A;
             border-radius: 20px;
-            padding: 18px;
-        }
-
-        .form-label-premium {
-            color: #8E9AAB;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .input-wrapper-premium {
-            position: relative;
-            display: flex;
-            align-items: center;
+            padding: 15px;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
-
-        .input-field-premium {
-            width: 100%;
-            height: 50px;
-            background-color: #1F2632;
-            border: 1px solid #2C3545;
-            border-radius: 14px;
-            color: #FFFFFF;
-            padding: 0 16px;
-            font-size: 15px;
-            font-weight: 500;
-            outline: none;
-            display: flex;
-            align-items: center;
+        .mode-card.active {
+            background: #1A62B1;
+            border-color: #1A62B1;
         }
-
-        .select-arrow {
-            position: absolute;
-            right: 16px;
-            color: #8E9AAB;
-            pointer-events: none;
+        .mode-card-title {
+            display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 14px; font-weight: 700; color: #FFFFFF;
         }
-
-        /* CUSTOM DROPDOWN MODAL */
-        .dropdown-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease;
-            padding: 24px;
+        .mode-card-title span { font-size: 18px; }
+        .mode-card-desc {
+            margin: 0; font-size: 11px; line-height: 1.5; color: #8CA0BA; font-weight: 500;
         }
+        .mode-card.active .mode-card-desc { color: #DFE8F5; }
 
-        .dropdown-overlay.show {
-            opacity: 1;
-            pointer-events: auto;
+        .slide-action-container {
+            position: relative; background: #0E151F; height: 52px; border-radius: 26px;
+            display: flex; align-items: center; justify-content: flex-end; padding-right: 20px; overflow: hidden;
         }
-
-        .dropdown-modal {
-            background-color: #171D26;
-            border: 1px solid #2C3545;
-            width: 100%;
-            max-width: 320px;
-            border-radius: 20px;
-            overflow: hidden;
-            transform: scale(0.9);
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .slide-action-text { font-size: 11px; font-weight: 800; color: #61758F; letter-spacing: 0.8px; pointer-events: none; z-index: 1; }
+        .slide-action-btn {
+            position: absolute; left: 4px; top: 4px; width: 44px; height: 44px; background: #1A83FF;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: grab; z-index: 2;
+            box-shadow: 0 2px 8px rgba(26,131,255,0.4);
         }
-
-        .dropdown-overlay.show .dropdown-modal {
-            transform: scale(1);
-        }
-
-        .dropdown-option {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 20px;
-            color: #FFFFFF;
-            font-size: 15px;
-            cursor: pointer;
-            border-bottom: 1px solid #1F2632;
-        }
-
-        .dropdown-option.selected {
-            background-color: rgba(52, 199, 89, 0.05);
-        }
-
-        .custom-radio {
-            width: 18px; height: 18px;
-            border: 2px solid #5A6E85;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        .dropdown-option.selected .custom-radio {
-            border-color: #34C759;
-        }
-
-        .custom-radio-inner {
-            width: 10px; height: 10px;
-            background-color: #34C759;
-            border-radius: 50%;
-            transform: scale(0);
-            transition: transform 0.2s;
-        }
-
-        .dropdown-option.selected .custom-radio-inner {
-            transform: scale(1);
-        }
-
-        .input-disabled-premium {
-            background-color: #131821;
-            border-color: #1F2632;
-            color: #5A6E85;
-        }
-
-        .btn-group-premium {
-            display: flex; gap: 12px; margin-top: 6px;
-        }
-
-        .btn-premium {
-            flex: 1; height: 50px; border: none; border-radius: 14px;
-            font-size: 14px; font-weight: 700; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
-
-        .btn-reset-premium { background-color: #2A161A; color: #FF4554; border: 1px solid rgba(255, 69, 84, 0.2); }
-        .btn-apply-premium { background-color: #00E676; color: #000000; }
-
-        /* PROFILE SCREEN */
-        .profile-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 12px; margin-bottom: 12px; }
-        .grid-box { background-color: #171D26; border-radius: 20px; padding: 22px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        .grid-box .box-title { font-size: 16px; font-weight: 800; }
-        .grid-box .box-label { font-size: 22px; font-weight: bold; }
-        .grid-box .box-sublabel { font-size: 13px; color: #8E9AAB; font-weight: bold; }
-        .grid-box i.big-icon { color: #FFFFFF; margin-bottom: 10px; }
-
-        .link-item-box { display: flex; align-items: center; background-color: #171D26; border-radius: 20px; padding: 18px; margin-bottom: 12px; cursor: pointer; text-decoration: none; color: inherit; }
-        .link-icon-wrapper { color: #FFFFFF; margin-right: 14px; display: flex; align-items: center; }
-        .link-text-wrapper { flex: 1; display: flex; flex-direction: column; padding-right: 10px; }
-        .link-title { font-size: 16px; font-weight: bold; }
-        .link-desc { font-size: 11px; color: #8E9AAB; margin-top: 4px; line-height: 1.4; }
-        .link-action-icon { color: #FFFFFF; display: flex; align-items: center; }
-
-        .room { display: none; height: 100%; }
-        .room.active { display: block; }
-
-        /* Bottom Nav Bar */
-        .bottom-nav {
-            position: absolute; bottom: 0; left: 0; right: 0; height: 76px;
-            background-color: #171D26; display: flex; justify-content: space-around; align-items: center;
-            padding: 0 10px calc(8px + env(safe-area-inset-bottom)) 10px; border-top: 1px solid #1F2632; z-index: 99;
-        }
-        .nav-tab { display: flex; flex-direction: column; align-items: center; cursor: pointer; color: #5A6E85; width: 65px; }
-        .nav-tab span { font-size: 11px; margin-top: 4px; }
-        .nav-tab.active { color: #34C759; }
-        .nav-tab.active span { color: #FFFFFF; }
-
-        /* Toast Popup */
-        .toast {
-            position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background-color: #1F2632; color: #fff; padding: 10px 20px; border-radius: 16px; font-size: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
-            z-index: 999; pointer-events: none; opacity: 0; text-align: center; width: max-content; max-width: 85%;
-        }
-        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .slide-action-btn span { color: white; font-size: 20px; font-weight: bold; }
+        .slide-fill-progress { position: absolute; left: 0; top: 0; height: 100%; width: 0; background: rgba(26, 131, 255, 0.15); z-index: 0; }
+        /* ===================================================================== */
     </style>
 </head>
 <body>
 
-    <div class="app-container">
+    <div id="home" class="tab-content active">
+        <div class="status-container">
+            <h2 class="status-title">Berjalan <span class="badge-tools">Tools</span></h2>
+            <p class="status-version">Versi: 3.1.0 | Beta</p>
+            <div class="status-timer">T+167 : 34 : 05</div>
+            <svg class="logo-hacker" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 20L50 55L90 20L75 85L50 65L25 85L10 20Z" fill="white"/></svg>
+        </div>
+
+        <div class="spec-box">
+            <div class="spec-item"><div class="spec-icon"><span class="material-icons-round">smartphone</span></div><div class="spec-info"><h4>Nama Perangkat</h4><p id="txt-device">Memuat...</p></div></div>
+            <div class="spec-item"><div class="spec-icon"><span class="material-icons-round">android</span></div><div class="spec-info"><h4>Versi Android</h4><p id="txt-android">Memuat...</p></div></div>
+            <div class="spec-item"><div class="spec-icon"><span class="material-icons-round">code</span></div><div class="spec-info"><h4>Akses Mode</h4><p id="txt-shizuku">Memuat...</p></div></div>
+            <div class="spec-item"><div class="spec-icon"><span class="material-icons-round">memory</span></div><div class="spec-info"><h4>ABI Support</h4><p id="txt-abi">Memuat...</p></div></div>
+            <div class="spec-item"><div class="spec-icon"><span class="material-icons-round">vpn_key</span></div><div class="spec-info"><h4>Build ID</h4><p id="txt-build">Memuat...</p></div></div>
+        </div>
+
+        <a href="https://whatsapp.com/channel/0029VajWnZ6E50UfByAasT3G" target="_blank" class="support-box">
+            <div class="support-left">
+                <h3>Support Team</h3>
+                <p>support us by following our social media, to get more information</p>
+            </div>
+            <div class="support-socials">
+                <img class="social-icon-img" src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WA">
+                <img class="social-icon-img" src="https://img.icons8.com/color/48/tiktok.png" alt="TT">
+            </div>
+        </a>
+    </div>
+
+    <div id="tools" class="tab-content">
+        <div class="game-launcher-grid">
+            <div class="game-card-btn" onclick="openGameLauncher('ff')">
+                <img class="game-icon-img" src="https://fanzzxct9-collab.github.io/FANZZ-SERVER/ff_icon.png" onerror="this.src='https://img.icons8.com/color/96/free-fire.png'" alt="FF">
+                <div class="game-meta"><h3>Free Fire</h3><p>com.dts.freefireth</p></div>
+            </div>
+            <div class="game-card-btn" onclick="openGameLauncher('ffmax')">
+                <img class="game-icon-img" src="https://fanzzxct9-collab.github.io/FANZZ-SERVER/ffmax_icon.png" onerror="this.src='https://img.icons8.com/color/96/free-fire.png'" alt="FF MAX">
+                <div class="game-meta"><h3>Free Fire MAX</h3><p>com.dts.freefiremax</p></div>
+            </div>
+        </div>
+
+        <div class="tweak-card" style="margin-bottom: 8px;">
+            <div class="tweak-left">
+                <div class="tweak-icon-box"><span class="material-icons-round">star_outline</span></div>
+                <div class="tweak-text">
+                    <h3>Sensi Recommendation</h3>
+                    <p>Memberikan rekomendasi pengaturan sensitivitas berdasarkan perangkat dan penggunaan agar kontrol lebih stabil dan nyaman</p>
+                </div>
+            </div>
+            <div class="tweak-right-action">
+                <label class="switch">
+                    <input type="checkbox" id="switch-sensi" onchange="toggleSensiPanel(this.checked)">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="recommendation-panel" id="panel-sensi">
+            <div class="panel-header">
+                <select class="select-sensi-mode" id="sensi-preset-mode">
+                    <option value="all">All Device</option>
+                    <option value="low">Sensi Rendah</option>
+                    <option value="med">Sensi Sedang</option>
+                    <option value="high">Sensi Tinggi</option>
+                </select>
+                <button class="btn-generate" onclick="generateSensiData()">GENERATE</button>
+            </div>
+            
+            <div class="sensi-row-item"><span class="sensi-name">Lihat Sekeliling</span><span class="sensi-value" id="val-sekeliling">0</span></div>
+            <div class="sensi-row-item"><span class="sensi-name">Red Dot Sight</span><span class="sensi-value" id="val-reddot">0</span></div>
+            <div class="sensi-row-item"><span class="sensi-name">2x Scope</span><span class="sensi-value" id="val-2x">0</span></div>
+            <div class="sensi-row-item"><span class="sensi-name">4x Scope</span><span class="sensi-value" id="val-4x">0</span></div>
+            <div class="sensi-row-item"><span class="sensi-name">Sniper Scope</span><span class="sensi-value" id="val-sniper">0</span></div>
+            <div class="sensi-row-item"><span class="sensi-name">Tombol Kamera Bebas</span><span class="sensi-value" id="val-kamera">0</span></div>
+        </div>
+
+        <div class="tweak-card">
+            <div class="tweak-left">
+                <div class="tweak-icon-box"><span class="material-icons-round">ads_click</span></div>
+                <div class="tweak-text"><h3>Easy Drag</h3><p>Mempermudah pergerakan drag agar lebih ringan dan mudah dikontrol sehingga transisi aim terasa lebih halus</p></div>
+            </div>
+            <div class="tweak-right-action"><label class="switch"><input type="checkbox" onchange="Android.setGameTweak('easy_drag', this.checked)"><span class="slider"></span></label></div>
+        </div>
+        <div class="tweak-card">
+            <div class="tweak-left">
+                <div class="tweak-icon-box"><span class="material-icons-round">track_changes</span></div>
+                <div class="tweak-text"><h3>Drag hs</h3><p>Membantu arah pergerakan drag lebih terarah ke area target untuk mempermudah mendapatkan headshot secara konsisten</p></div>
+            </div>
+            <div class="tweak-right-action"><label class="switch"><input type="checkbox" onchange="Android.setGameTweak('drag_hs', this.checked)"><span class="slider"></span></label></div>
+        </div>
+        <div class="tweak-card">
+            <div class="tweak-left">
+                <div class="tweak-icon-box"><span class="material-icons-round">bolt</span></div>
+                <div class="tweak-text"><h3>Fps Boost</h3><p>Meningkatkan kestabilan frame rate agar tampilan lebih lancar dan responsif saat digunakan (tidak semua divice support)</p></div>
+            </div>
+            <div class="tweak-right-action"><label class="switch"><input type="checkbox" onchange="Android.setGameTweak('fps_boost', this.checked)"><span class="slider"></span></label></div>
+        </div>
+        <div class="tweak-card">
+            <div class="tweak-left">
+                <div class="tweak-icon-box"><span class="material-icons-round">tune</span></div>
+                <div class="tweak-text"><h3>Sensitivity tuning</h3><p>Menyesuaikan tingkat sensitivitas agar pergerakan aim lebih stabil halus dan sesuai dengan karakter penggunaan (tidak semua divice support)</p></div>
+            </div>
+            <div class="tweak-right-action"><label class="switch"><input type="checkbox" onchange="Android.setGameTweak('sensitivity_tuning', this.checked)"><span class="slider"></span></label></div>
+        </div>
+        <div class="tweak-card">
+            <div class="tweak-left">
+                <div class="tweak-icon-box"><span class="material-icons-round">speed</span></div>
+                <div class="tweak-text"><h3>Max performance</h3><p>Mengoptimalkan performa perangkat agar berjalan lebih stabil dan responsif saat digunakan (tidak semua divice support)</p></div>
+            </div>
+            <div class="tweak-right-action"><label class="switch"><input type="checkbox" onchange="Android.setGameTweak('max_performance', this.checked)"><span class="slider"></span></label></div>
+        </div>
+    </div>
+
+    <div id="setting" class="tab-content">
+        <div class="setting-section-title">Display Configuration</div>
+        <div class="config-group">
+            <div class="config-label">Display Mode</div>
+            <div class="dropdown-container">
+                <select class="dropdown-select" id="display-mode-select">
+                    <option value="biasa">Biasa</option>
+                    <option value="ultrawide" selected>Ultrawide</option>
+                </select>
+            </div>
+
+            <div class="config-label">Resolution</div>
+            <div class="resolution-input-row">
+                <div class="input-box-wrapper">
+                    <input type="number" class="style-input" id="input-width" placeholder="Width" 
+                           oninput="this.value = this.value.slice(0,4); calculateHeight(this.value)">
+                </div>
+                <div class="input-box-wrapper">
+                    <input type="number" class="style-input" id="input-height" placeholder="Height" readonly>
+                </div>
+            </div>
+
+            <div class="config-label">Density (DPI)</div>
+            <div class="dropdown-container" style="margin-bottom: 16px;">
+                <input type="number" class="style-input" id="input-dpi" placeholder="DPI" 
+                       oninput="this.value = this.value.slice(0,3)">
+                <small style="color: #6B7A8F; font-size: 9.5px; margin-top: 4px; display: block;">Min: 388 &nbsp;&nbsp; Max: 580</small>
+            </div>
+
+            <div class="action-button-row">
+                <button class="btn-action btn-reset" onclick="triggerResetResolution()">RESET</button>
+                <button class="btn-action btn-apply" onclick="triggerApplyResolution()">APPLY</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="profil" class="tab-content">
+        <div class="grid-profile">
+            <div class="profile-card-top"><span class="material-icons-round large-icon">group</span><div class="title-top">MODPACK V3.1</div></div>
+            <div class="profile-card-top"><span class="material-icons-round large-icon" style="color:var(--text-muted)">layers</span><div class="title-top">Version</div><div class="sub-title-top">3.1</div></div>
+        </div>
         
-        <div id="toast" class="toast">Menerapkan...</div>
-
-        <div class="main-content">
-
-            <div id="layoutHome" class="room active">
-                <div class="card">
-                    <div class="card-header-flex">
-                        <div>
-                            <div class="card-title">Berjalan <span class="status-badge">Tools</span></div>
-                            <div class="card-subtitle">Versi: 3.1.0 | Beta</div>
-                        </div>
-                        <div class="logo-m">
-                            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 25L35 75L50 50L65 75L90 25L75 40L50 15L25 40L10 25Z" fill="white"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="time-tracker">T+18 : 42 : 09</div>
+        <a href="https://whatsapp.com/channel/0029VajWnZ6E50UfByAasT3G" target="_blank" class="social-link-card">
+            <div class="social-left-info">
+                <img class="social-icon-img" src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WA">
+                <div>
+                    <h3>Saluran Whatsapp</h3>
+                    <p>Join Saluran Untuk Mendapatkan Update Terbaru Informasi Penting Dan Akses Ke Fitur Serta Versi Terbaru Apk Tools</p>
                 </div>
-
-                <div class="card" style="padding: 14px;">
-                    <div class="info-item-box">
-                        <div class="info-icon-wrapper"><i data-lucide="smartphone" size="18"></i></div>
-                        <div class="info-text-wrapper"><div class="info-label">Nama Perangkat</div><div class="info-value">Redmi 22120RN86G</div></div>
-                    </div>
-                    <div class="info-item-box">
-                        <div class="info-icon-wrapper"><i data-lucide="bot" size="18"></i></div>
-                        <div class="info-text-wrapper"><div class="info-label">Versi Android</div><div class="info-value">Android 14</div></div>
-                    </div>
-                    <div class="info-item-box">
-                        <div class="info-icon-wrapper"><i data-lucide="code-2" size="18"></i></div>
-                        <div class="info-text-wrapper"><div class="info-label">Akses Mode</div><div class="info-value">Bisa akses shizuku</div></div>
-                    </div>
-                    <div class="info-item-box">
-                        <div class="info-icon-wrapper"><i data-lucide="cpu" size="18"></i></div>
-                        <div class="info-text-wrapper"><div class="info-label">ABI Support</div><div class="info-value">arm64-v8a</div></div>
-                    </div>
-                    <div class="info-item-box">
-                        <div class="info-icon-wrapper"><i data-lucide="key-round" size="18"></i></div>
-                        <div class="info-text-wrapper"><div class="info-label">Build ID</div><div class="info-value">UP1A.231005.007</div></div>
-                    </div>
+            </div>
+            <span class="material-icons-round" style="font-size: 16px; color: var(--text-muted);">open_in_new</span>
+        </a>
+        
+        <a href="https://www.tiktok.com/@fanzz_xt9" target="_blank" class="social-link-card">
+            <div class="social-left-info">
+                <img class="social-icon-img" src="https://img.icons8.com/color/48/tiktok.png" alt="TT">
+                <div>
+                    <h3>Follow TikTok</h3>
+                    <p>Follow tiktok agar dapat info tentang update dan seputar aplikasi free yang bakalan di upload lewat tiktok resmi</p>
                 </div>
+            </div>
+            <span class="material-icons-round" style="font-size: 16px; color: var(--text-muted);">open_in_new</span>
+        </a>
+    </div>
 
-                <div class="card">
-                    <div class="support-flex">
-                        <div class="support-text">
-                            <h4>Support Team</h4>
-                            <p>support us by following our social media, to get more information</p>
-                        </div>
-                        <div class="support-icons">
-                            <a href="https://whatsapp.com/channel/0029VbCUm8bCxoAu9JPab20q" target="_blank">
-                                <i data-lucide="message-circle" size="20"></i>
-                            </a>
-                            <a href="https://www.tiktok.com/@manukcilil?_r=1&_t=ZS-96kBD9zGmtI" target="_blank">
-                                <i data-lucide="music-4" size="20"></i>
-                            </a>
-                        </div>
-                    </div>
+    <div class="ios-backdrop" id="launcherBottomSheet" onclick="closeGameLauncher()">
+        <div class="launcher-box-sheet" onclick="event.stopPropagation()">
+            <div class="ios-drag-handle" onclick="closeGameLauncher()"></div>
+
+            <div class="game-header-info">
+                <div class="game-title-left">
+                    <h3 id="sheet-game-title">Free Fire</h3>
+                    <p id="sheet-game-package">com.dts.freefireth</p>
+                </div>
+                <div class="game-version-right">
+                    <div class="v-num" id="sheet-game-version">1.123.1</div>
+                    <div class="v-code" id="sheet-game-code">2019120270</div>
                 </div>
             </div>
 
-            <div id="layoutToolsMenu" class="room">
-                
-                <div class="switch-item">
-                    <div class="item-accent-bar"></div>
-                    <div class="switch-text">
-                        <div class="switch-title"><i data-lucide="move" size="16"></i> Easy Drag</div>
-                        <div class="switch-desc">Mempermudah pergerakan drag agar lebih ringan dan mudah dikontrol sehingga transisi aim terasa lebih halus</div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="switchEasyDrag" onchange="toggleFeature('Easy Drag', this)">
-                        <span class="slider"></span>
-                    </label>
+            <div class="mode-selection-grid">
+                <div class="mode-card active" id="card-balanced" onclick="selectGameMode('balanced')">
+                    <div class="mode-card-title"><span class="material-icons-round">scale</span> Balanced</div>
+                    <p class="mode-card-desc">Mode seimbang untuk gameplay stabil dan nyaman, cocok untuk bermain harian dengan performa yang konsisten.</p>
                 </div>
-
-                <div class="switch-item">
-                    <div class="item-accent-bar"></div>
-                    <div class="switch-text">
-                        <div class="switch-title"><i data-lucide="target" size="16"></i> Drag hs</div>
-                        <div class="switch-desc">Membantu arah pergerakan drag lebih terarah ke area target untuk mempermudah mendapatkan headshot secara konsisten</div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="switchDragHs" onchange="toggleFeature('Drag hs', this)">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-
-                <div class="switch-item">
-                    <div class="item-accent-bar"></div>
-                    <div class="switch-text">
-                        <div class="switch-title"><i data-lucide="zap" size="16"></i> Fps Boost</div>
-                        <div class="switch-desc">Meningkatkan kestabilan frame rate agar tampilan lebih lancar dan responsif saat digunakan</div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="switchFpsBoost" onchange="toggleFeature('Fps Boost', this)">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-
-                <div class="switch-item">
-                    <div class="item-accent-bar"></div>
-                    <div class="switch-text">
-                        <div class="switch-title"><i data-lucide="sliders" size="16"></i> Sensitivity tuning</div>
-                        <div class="switch-desc">Menyesuaikan tingkat sensitas agar pergerakan aim lebih stabil halus dan sesuai dengan karakter penggunaan</div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="switchSensTuning" onchange="toggleFeature('Sensitivity tuning', this)">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-
-                <div class="switch-item">
-                    <div class="item-accent-bar"></div>
-                    <div class="switch-text">
-                        <div class="switch-title"><i data-lucide="gauge" size="16"></i> Max performance</div>
-                        <div class="switch-desc">Mengoptimalkan performa perangkat agar berjalan lebih stabil dan responsif saat digunakan</div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="switchMaxPerf" onchange="toggleFeature('Max performance', this)">
-                        <span class="slider"></span>
-                    </label>
+                <div class="mode-card" id="card-competitive" onclick="selectGameMode('competitive')">
+                    <div class="mode-card-title"><span class="material-icons-round">rocket_launch</span> Competitive</div>
+                    <p class="mode-card-desc">Mode performa tinggi untuk gameplay cepat dan responsif, dirancang untuk player kompetitif dan permainan kompetitif.</p>
                 </div>
             </div>
 
-            <div id="layoutSettingResolusi" class="room">
-                <div class="settings-container">
-                    <div class="form-group-card">
-                        <div class="form-label-premium" id="labelDisplayMode"><i data-lucide="monitor" size="15"></i> Display Mode (Biasa)</div>
-                        <div class="input-wrapper-premium" onclick="openDropdownModal()">
-                            <div id="customSelectTrigger" class="input-field-premium">Biasa (Standard)</div>
-                            <i data-lucide="chevron-down" class="select-arrow" size="16"></i>
-                        </div>
-                    </div>
-
-                    <div class="form-group-card">
-                        <div class="form-label-premium"><i data-lucide="maximize-2" size="15"></i> Resolution</div>
-                        <div style="display: flex; gap: 10px;">
-                            <div style="flex: 1;"><input type="number" id="etWidth" class="input-field-premium" placeholder="Width" oninput="hitungTinggiResolusi()"></div>
-                            <div style="flex: 1;"><input type="text" id="etHeight" class="input-field-premium input-disabled-premium" placeholder="Height" readonly></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group-card">
-                        <div class="form-label-premium"><i data-lucide="layers" size="15"></i> Screen Density</div>
-                        <div class="input-wrapper-premium"><input type="number" id="etDpi" class="input-field-premium" placeholder="Masukkan Nilai DPI"></div>
-                    </div>
-
-                    <div class="btn-group-premium">
-                        <button class="btn-premium btn-reset-premium" onclick="resetResolusiDefault()"><i data-lucide="rotate-ccw" size="15"></i> RESET</button>
-                        <button class="btn-premium btn-apply-premium" onclick="applyResolusi()"><i data-lucide="check" size="15"></i> APPLY NOW</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="layoutProfile" class="room">
-                <div class="profile-grid">
-                    <div class="grid-box"><i data-lucide="users" class="big-icon" size="44"></i><div class="box-title">SENSIX V3.1</div></div>
-                    <div class="grid-box"><div class="box-label">Version</div><div class="box-sublabel">3.1</div></div>
-                </div>
-
-                <a href="https://whatsapp.com/channel/0029VbCUm8bCxoAu9JPab20q" target="_blank" class="link-item-box">
-                    <div class="link-icon-wrapper"><i data-lucide="message-circle" size="24"></i></div>
-                    <div class="link-text-wrapper">
-                        <div class="link-title">Saluran Whatsapp</div>
-                        <div class="link-desc">Join Saluran Untuk Mendapatkan Update Terbaru Informasi Penting Dan Akses Ke Fitur Serta Versi Terbaru Apk Tools</div>
-                    </div>
-                    <div class="link-action-icon"><i data-lucide="external-link" size="20"></i></div>
-                </a>
-
-                <a href="https://www.tiktok.com/@manukcilil?_r=1&_t=ZS-96kBD9zGmtI" target="_blank" class="link-item-box">
-                    <div class="link-icon-wrapper"><i data-lucide="music-4" size="24"></i></div>
-                    <div class="link-text-wrapper">
-                        <div class="link-title">Follow TikTok</div>
-                        <div class="link-desc">Follow tiktok agar dapat info tentang update dan seputar aplikasi free yang bakalan di upload lewat tiktok resmi</div>
-                    </div>
-                    <div class="link-action-icon"><i data-lucide="external-link" size="20"></i></div>
-                </a>
-            </div>
-
-        </div>
-
-        <div id="dropdownOverlay" class="dropdown-overlay" onclick="closeDropdownModal()">
-            <div class="dropdown-modal" onclick="event.stopPropagation()">
-                <div class="dropdown-option selected" id="optBiasa" onclick="selectDropdownOption('Biasa', 'Biasa (Standard)')">
-                    <span>Biasa (Standard)</span><div class="custom-radio"><div class="custom-radio-inner"></div></div>
-                </div>
-                <div class="dropdown-option" id="optUltrawide" onclick="selectDropdownOption('Ultrawide', 'Ultrawide (Wide)')">
-                    <span>Ultrawide (Wide)</span><div class="custom-radio"><div class="custom-radio-inner"></div></div>
+            <div class="slide-action-container" id="slide-lock-container">
+                <div class="slide-fill-progress" id="slide-bg-progress"></div>
+                <div class="slide-action-text" id="slide-label-text">SLIDE TO LOGIN</div>
+                <div class="slide-action-btn" id="slider-trigger">
+                    <span class="material-icons-round">double_arrow</span>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="bottom-nav">
-            <div class="nav-tab active" onclick="switchRuangan('HOME', this)"><i data-lucide="home" size="18"></i><span>Home</span></div>
-            <div class="nav-tab" onclick="switchRuangan('TOOLS', this)"><i data-lucide="layout-grid" size="18"></i><span>Tools</span></div>
-            <div class="nav-tab" onclick="switchRuangan('SETTING', this)"><i data-lucide="sliders" size="18"></i><span>Settings</span></div>
-            <div class="nav-tab" onclick="switchRuangan('PROFILE', this)"><i data-lucide="user" size="18"></i><span>Profile</span></div>
+    <div class="nav-bar-container">
+        <div class="nav-bar">
+            <div class="nav-item active" onclick="switchTab('home', this)"><span class="material-icons-round">home</span>HOME</div>
+            <div class="nav-item" onclick="switchTab('tools', this)"><span class="material-icons-round">build</span>TOOLS</div>
+            <div class="nav-item" onclick="switchTab('setting', this)"><span class="material-icons-round">settings</span>SETTING</div>
+            <div class="nav-item" onclick="switchTab('profil', this)"><span class="material-icons-round">account_circle</span>PROFIL</div>
         </div>
-
     </div>
 
     <script>
-        lucide.createIcons();
+        let currentPackage = "com.dts.freefireth";
+        let selectedGameModeProfile = 'balanced';
 
-        // Menggunakan alamat port jembatan lokal server dari Android (Sketchware)
-        const BRIDGE_URL = "http://localhost:8080";
+        const launcherDataMap = {
+            ff: { title: "Free Fire", package: "com.dts.freefireth", version: "1.123.1", code: "2019120270" },
+            ffmax: { title: "Free Fire MAX", package: "com.dts.freefiremax", version: "1.125.2", code: "2026040188" }
+        };
 
-        let currentSelectedMode = "Biasa";
-        let isAutoCalculating = false;
-
-        // Eksekusi pemuatan data otomatis saat aplikasi pertama kali dibuka
-        document.addEventListener("DOMContentLoaded", () => {
-            loadSavedFeatures();
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '1';
         });
 
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.innerText = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
+        function openGameLauncher(gameKey) {
+            const data = launcherDataMap[gameKey];
+            currentPackage = data.package;
+
+            document.getElementById('sheet-game-title').innerText = data.title;
+            document.getElementById('sheet-game-package').innerText = data.package;
+            document.getElementById('sheet-game-version').innerText = data.version;
+            document.getElementById('sheet-game-code').innerText = data.code;
+
+            document.getElementById('launcherBottomSheet').classList.add('show');
         }
 
-        function switchRuangan(halaman, elementTab) {
-            document.querySelectorAll('.room').forEach(room => room.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-            elementTab.classList.add('active');
-
-            if (halaman === 'HOME') document.getElementById('layoutHome').classList.add('active');
-            else if (halaman === 'TOOLS') document.getElementById('layoutToolsMenu').classList.add('active');
-            else if (halaman === 'SETTING') document.getElementById('layoutSettingResolusi').classList.add('active');
-            else if (halaman === 'PROFILE') document.getElementById('layoutProfile').classList.add('active');
-            document.querySelector('.main-content').scrollTop = 0;
+        function closeGameLauncher() {
+            document.getElementById('launcherBottomSheet').classList.remove('show');
         }
 
-        /* AUTO SAVE ENGINE USING LOCALSTORAGE & BRIDGE INTEGRATION */
-        function toggleFeature(featureName, checkbox) {
-            localStorage.setItem(checkbox.id, checkbox.checked);
-            if (checkbox.checked) {
-                showToast(`${featureName} Berhasil Diterapkan!`);
-            } else {
-                showToast(`${featureName} Dinonaktifkan.`);
-            }
-
-            // Integrasi Bridge: Kirim sinyal toggle switch ke background server Android
-            const namaBersih = featureName.replace(/\s+/g, '_');
-            fetch(`${BRIDGE_URL}/fitur?nama=${namaBersih}&status=${checkbox.checked}`)
-            .catch(err => console.log("Gagal menyambung ke server APK. Pastikan server aktif."));
-        }
-
-        function loadSavedFeatures() {
-            const switches = [
-                { id: 'switchEasyDrag', name: 'Easy Drag' },
-                { id: 'switchDragHs', name: 'Drag hs' },
-                { id: 'switchFpsBoost', name: 'Fps Boost' },
-                { id: 'switchSensTuning', name: 'Sensitivity tuning' },
-                { id: 'switchMaxPerf', name: 'Max performance' }
-            ];
-
-            switches.forEach(sw => {
-                const savedState = localStorage.getItem(sw.id);
-                if (savedState !== null) {
-                    document.getElementById(sw.id).checked = (savedState === 'true');
-                }
-            });
-
-            // Memuat ulang konfigurasi Display Mode yang tersimpan
-            const savedMode = localStorage.getItem('displayMode');
-            if (savedMode === 'Ultrawide') {
-                selectDropdownOption('Ultrawide', 'Ultrawide (Wide)', true);
-            } else {
-                selectDropdownOption('Biasa', 'Biasa (Standard)', true);
+        function selectGameMode(mode) {
+            selectedGameModeProfile = mode;
+            document.getElementById('card-balanced').classList.remove('active');
+            document.getElementById('card-competitive').classList.remove('active');
+            document.getElementById('card-' + mode).classList.add('active');
+            
+            if (typeof Android !== "undefined") { 
+                Android.setGameTweak('game_mode_profile', mode); 
             }
         }
 
-        /* SETTING CUSTOM DROPDOWN */
-        function openDropdownModal() { document.getElementById('dropdownOverlay').classList.add('show'); }
-        function closeDropdownModal() { document.getElementById('dropdownOverlay').classList.remove('show'); }
-
-        function selectDropdownOption(value, teksTampilan, isInitialLoad = false) {
-            currentSelectedMode = value;
-            document.getElementById('customSelectTrigger').innerText = teksTampilan;
-            document.querySelectorAll('.dropdown-option').forEach(opt => opt.classList.remove('selected'));
-            
-            if (value === 'Biasa') document.getElementById('optBiasa').classList.add('selected');
-            else document.getElementById('optUltrawide').classList.add('selected');
-
-            const label = document.getElementById('labelDisplayMode');
-            label.innerHTML = `<i data-lucide="monitor" size="15"></i> Display Mode (${value})`;
-            lucide.createIcons();
-            
-            if (!isInitialLoad) {
-                localStorage.setItem('displayMode', value);
-                showToast(`Display Mode diubah ke ${value}`);
-            }
-            
-            hitungTinggiResolusi();
-            closeDropdownModal();
-        }
-
-        function hitungTinggiResolusi() {
-            if (isAutoCalculating) return;
-            const widthInput = document.getElementById('etWidth').value.trim();
-            const mode = currentSelectedMode;
-            const heightField = document.getElementById('etHeight');
-
-            if (widthInput !== "") {
-                const width = parseInt(widthInput);
-                let height = mode === "Ultrawide" ? Math.floor(width * 2.777) : Math.floor(width * 2.222);
-                isAutoCalculating = true;
-                heightField.value = height;
-                isAutoCalculating = false;
-            } else {
-                heightField.value = "";
-            }
-        }
-
-        function resetResolusiDefault() {
-            document.getElementById('etWidth').value = "";
-            document.getElementById('etHeight').value = "";
-            document.getElementById('etDpi').value = "";
-            selectDropdownOption('Biasa', 'Biasa (Standard)');
-            
-            // Integrasi Bridge: Kirim perintah reset ukuran layar wm ke setelan pabrik
-            fetch(`${BRIDGE_URL}/reset`)
-            .then(() => {
-                showToast("Resolusi di-reset ke default HP.");
-            })
-            .catch(err => {
-                showToast("Gagal mereset lewat sistem Android.");
-            });
-        }
-
-        function applyResolusi() {
-            const wStr = document.getElementById('etWidth').value.trim();
-            const hStr = document.getElementById('etHeight').value.trim();
-            const dStr = document.getElementById('etDpi').value.trim();
-
-            if (wStr === "" || hStr === "" || dStr === "") {
-                showToast("Kolom tidak boleh kosong!");
+        function calculateHeight(widthValue) {
+            var heightInput = document.getElementById('input-height');
+            if (!widthValue || widthValue === "") {
+                heightInput.value = "";
                 return;
             }
+            var width = parseInt(widthValue);
+            var mode = document.getElementById('display-mode-select').value;
+            let calculatedHeight;
 
-            // Integrasi Bridge: Kirim parameter Width, Height, dan DPI ke Shizuku Shell
-            fetch(`${BRIDGE_URL}/apply?w=${wStr}&h=${hStr}&d=${dStr}`)
-            .then(() => {
-                showToast("Resolusi Berhasil Diubah!");
-            })
-            .catch(err => {
-                showToast("Gagal menyambung ke APK Bridge!");
-            });
+            if (mode === "ultrawide") {
+                calculatedHeight = Math.round(width * 2.77767857);
+            } else {
+                calculatedHeight = Math.round(width * (16 / 9));
+            }
+            heightInput.value = calculatedHeight;
         }
+
+        document.getElementById('display-mode-select').addEventListener('change', function() {
+            var currentWidth = document.getElementById('input-width').value;
+            calculateHeight(currentWidth);
+        });
+
+        function loadRealtimeData() {
+            if (typeof Android !== "undefined") {
+                document.getElementById('txt-device').innerText = Android.getDeviceName();
+                document.getElementById('txt-android').innerText = Android.getAndroidVersion();
+                document.getElementById('txt-shizuku').innerText = Android.getShizukuStatus();
+                document.getElementById('txt-abi').innerText = Android.getABISupport();
+                document.getElementById('txt-build').innerText = Android.getBuildID();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() { loadRealtimeData(); });
+
+        function switchTab(tabId, element) {
+            var contents = document.querySelectorAll('.tab-content');
+            contents.forEach(function(c) { c.classList.remove('active'); });
+            var navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(function(i) { i.classList.remove('active'); });
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+            if(tabId === 'home') { loadRealtimeData(); }
+        }
+
+        function toggleSensiPanel(isChecked) {
+            var panel = document.getElementById('panel-sensi');
+            if(isChecked) {
+                panel.style.display = 'block';
+            } else {
+                panel.style.display = 'none';
+                resetSensiValues();
+            }
+        }
+
+        function resetSensiValues() {
+            document.getElementById('val-sekeliling').innerText = "0";
+            document.getElementById('val-reddot').innerText = "0";
+            document.getElementById('val-2x').innerText = "0";
+            document.getElementById('val-4x').innerText = "0";
+            document.getElementById('val-sniper').innerText = "0";
+            document.getElementById('val-kamera').innerText = "0";
+        }
+
+        function generateSensiData() {
+            var mode = document.getElementById('sensi-preset-mode').value;
+            let s1, s2, s3, s4, s5, s6;
+
+            if (mode === "low") {
+                s1 = Math.floor(Math.random() * (85 - 75 + 1)) + 75;
+                s2 = Math.floor(Math.random() * (80 - 70 + 1)) + 70;
+                s3 = Math.floor(Math.random() * (78 - 68 + 1)) + 68;
+                s4 = Math.floor(Math.random() * (75 - 65 + 1)) + 65;
+                s5 = Math.floor(Math.random() * (45 - 35 + 1)) + 35;
+                s6 = Math.floor(Math.random() * (55 - 45 + 1)) + 45;
+            } else if (mode === "med") {
+                s1 = Math.floor(Math.random() * (94 - 86 + 1)) + 86;
+                s2 = Math.floor(Math.random() * (92 - 82 + 1)) + 82;
+                s3 = Math.floor(Math.random() * (88 - 80 + 1)) + 80;
+                s4 = Math.floor(Math.random() * (85 - 76 + 1)) + 76;
+                s5 = Math.floor(Math.random() * (55 - 46 + 1)) + 46;
+                s6 = Math.floor(Math.random() * (70 - 56 + 1)) + 56;
+            } else if (mode === "high") {
+                s1 = Math.floor(Math.random() * (100 - 95 + 1)) + 95;
+                s2 = Math.floor(Math.random() * (99 - 93 + 1)) + 93;
+                s3 = Math.floor(Math.random() * (98 - 90 + 1)) + 90;
+                s4 = Math.floor(Math.random() * (96 - 88 + 1)) + 88;
+                s5 = Math.floor(Math.random() * (68 - 56 + 1)) + 56;
+                s6 = Math.floor(Math.random() * (88 - 72 + 1)) + 72;
+            } else {
+                s1 = 98; s2 = 92; s3 = 90; s4 = 86; s5 = 50; s6 = 65;
+            }
+
+            document.getElementById('val-sekeliling').innerText = s1;
+            document.getElementById('val-reddot').innerText = s2;
+            document.getElementById('val-2x').innerText = s3;
+            document.getElementById('val-4x').innerText = s4;
+            document.getElementById('val-sniper').innerText = s5;
+            document.getElementById('val-kamera').innerText = s6;
+
+            if (typeof Android !== "undefined") {
+                Android.applySensiSystem(s1, s2, s3, s4, s5, s6);
+            }
+        }
+
+        function triggerApplyResolution() {
+            var w = document.getElementById('input-width').value;
+            var h = document.getElementById('input-height').value;
+            var dpi = document.getElementById('input-dpi').value;
+
+            if (dpi && (parseInt(dpi) < 388 || parseInt(dpi) > 580)) {
+                alert("DPI harus antara 388 sampai 580!");
+                return;
+            }
+            if (typeof Android !== "undefined") { Android.applyResolution(w, h, dpi); }
+        }
+
+        function triggerResetResolution() {
+            document.getElementById('input-width').value = "";
+            document.getElementById('input-height').value = "";
+            document.getElementById('input-dpi').value = "";
+            if (typeof Android !== "undefined") { Android.resetResolution(); }
+        }
+
+        // Logika Drag & Slide To Login Bulat iOS
+        document.addEventListener("DOMContentLoaded", function() {
+            const handle = document.getElementById('slider-trigger');
+            const container = document.getElementById('slide-lock-container');
+            const progress = document.getElementById('slide-bg-progress');
+            const labelText = document.getElementById('slide-label-text');
+            
+            let isDragging = false;
+            let startX = 0;
+            let maxSlide = container.clientWidth - handle.clientWidth - 8;
+
+            function onStart(e) {
+                isDragging = true;
+                startX = (e.touches ? e.touches[0].clientX : e.clientX) - handle.offsetLeft;
+                maxSlide = container.clientWidth - handle.clientWidth - 8;
+            }
+
+            function onMove(e) {
+                if (!isDragging) return;
+                let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                let left = clientX - startX;
+
+                if (left < 4) left = 4;
+                if (left > maxSlide) left = maxSlide;
+
+                handle.style.transform = `translateX(${left - 4}px)`;
+                progress.style.width = `${left + (handle.clientWidth / 2)}px`;
+
+                if (left >= maxSlide - 4) {
+                    isDragging = false;
+                    handle.style.transform = `translateX(${maxSlide - 4}px)`;
+                    labelText.innerText = "LAUNCHING GAME...";
+                    labelText.style.color = "#10B981";
+
+                    if (typeof Android !== "undefined") { 
+                        Android.runGame(currentPackage); 
+                    }
+                    
+                    setTimeout(() => {
+                        closeGameLauncher();
+                        handle.style.transform = 'translateX(0px)';
+                        progress.style.width = '0px';
+                        labelText.innerText = "SLIDE TO LOGIN";
+                        labelText.style.color = "#61758F";
+                    }, 1500);
+                }
+            }
+
+            function onEnd() {
+                if (!isDragging) return;
+                isDragging = false;
+                handle.style.transform = 'translateX(0px)';
+                progress.style.width = '0px';
+            }
+
+            handle.addEventListener('mousedown', onStart);
+            handle.addEventListener('touchstart', onStart);
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('touchmove', onMove);
+            window.addEventListener('mouseup', onEnd);
+            window.addEventListener('touchend', onEnd);
+        });
     </script>
 </body>
 </html>
